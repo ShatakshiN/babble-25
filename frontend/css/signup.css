@@ -10,6 +10,7 @@
     /* Left-aligned image */
     .left-aligned-img {
             max-width: 100%;
+            filter: saturate(1);
             height: 22cm;
             display: block;
             margin-left: -12px;
