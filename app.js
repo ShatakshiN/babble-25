@@ -4,7 +4,7 @@ const mongoConnect = require('./util/database');
 const app = express();
 
 
-mongoConnect(client =>{
+mongoConnect(() =>{
     console.log(client);
     app.listen(3000);
 });
