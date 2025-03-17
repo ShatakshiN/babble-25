@@ -11,12 +11,17 @@ require('dotenv').config();
 
 app.use(cors());
 app.use(bodyparser.json());
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'frontend/css')));
+
 
 
 //routes
 
 const userRoutes = require('./backend/routes/userRoutes')
+const chatRoutes = require('./backend/routes/chatRoutes')
 app.use('/user' , userRoutes)
+app.use('/chat', chatRoutes)
 
 
 sequelize.sync()

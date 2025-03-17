@@ -61,18 +61,24 @@ exports.login = async(req,res)=>{
     }
 }
 
-exports.getAll = async(req,res)=>{
-    try{
-        const users = await User.findAll({where : {
-            id :{
-                [Op.ne] : req.user.id
-            }
-        },
-        attributes : ['name']
-    })
-        return res.json({success : true , users})
-    }catch(e){
-        console.log(e)
-        return res.status(500).json({success : false , msg : "Internal server error"})
+exports.getAllUsers = async (req, res) => {
+    try {
+        const loggedInUserId = req.user.id; // Extract logged-in user ID from middleware
+
+        const users = await User.findAll({
+            attributes: ['id', 'name', 'dp']
+        });
+
+        // Provide a default DP if null
+        const usersWithDp = users.map(user => ({
+            id: user.id,
+            name: user.name,
+            //dp: user.dp || 'http://localhost:4000/images.png'  // Use the uploaded image
+        }));
+
+        return res.json({ success: true, users: usersWithDp });
+    } catch (e) {
+        console.error(e);
+        return res.status(500).json({ success: false, msg: "Internal server error" });
     }
-}
+};
