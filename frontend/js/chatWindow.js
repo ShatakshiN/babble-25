@@ -14,6 +14,15 @@ document.addEventListener("DOMContentLoaded", async function () {
     const chatUserId = localStorage.getItem("chatUserId");
     const chatUserName = localStorage.getItem("chatUserName");
     const token = localStorage.getItem("token");
+    /* const socket = io("http://localhost:4000", {
+        auth: { token }
+    }); */
+    const socket = io('http://localhost:4000', {
+        transports: ['websocket'], // Force WebSockets
+        reconnection: true,
+        reconnectionAttempts: 5,
+        reconnectionDelay: 1000
+    });
 
     if (!chatUserId || !chatUserName) {
         alert("No chat user selected.");
@@ -30,46 +39,35 @@ document.addEventListener("DOMContentLoaded", async function () {
             const response = await axios.get(`http://localhost:4000/chat/messages/${chatUserId}`, {
                 headers: { 'auth-token': token }
             });
-
-            chatBox.innerHTML = ""; // Clear previous messages
-            /* response.data.messages.forEach(msg => {
-                const msgElement = document.createElement("p");
-                msgElement.classList.add("p-2", "rounded", "w-50");
-                msgElement.textContent = msg.text;
-
-                if (msg.senderId === chatUserId) {
-                    msgElement.classList.add("bg-success");
-                } else {
-                    msgElement.classList.add("bg-secondary", "ms-auto");
-                }
-
-                chatBox.appendChild(msgElement);
-            }); */
-            response.data.messages.forEach(msg => {
-                const msgElement = document.createElement("p");
-                msgElement.classList.add("p-2", "rounded", "w-50");
             
-                msgElement.textContent = msg.text;
-
-                console.log(msg.senderId , chatUserId)
-                if (msg.senderId === parseInt(localStorage.getItem("chatUserId"))) {
-                    //msgElement.classList.add("bg-secondary", "ms-auto", "text-white", "text-end"); // Right side for sender
-                    msgElement.classList.add("sent");
-                } else {
-                    //msgElement.classList.add("bg-success", "text-white", "text-start"); // Left side for receiver
-                    msgElement.classList.add("received"); // Apply left-aligned style
-                }
-                
-                chatBox.appendChild(msgElement);
-            });
-
-
+            chatBox.innerHTML = ""; // Clear previous messages
+            response.data.messages.forEach(msg => appendMessage(msg));
         } catch (error) {
             console.error("Error fetching messages:", error);
         }
     }
 
+    function appendMessage(msg) {
+        const msgElement = document.createElement("p");
+        msgElement.classList.add("p-2", "rounded", "w-50");
+        msgElement.textContent = msg.text;
+    
+        if (msg.senderId === parseInt(localStorage.getItem("chatUserId"))) {
+            msgElement.classList.add("sent");
+        } else {
+            msgElement.classList.add("received");
+        }
+        
+        chatBox.appendChild(msgElement);
+        chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to latest message
+    }
+
     await loadMessages();
+
+    // Listen for new messages via Socket.IO
+    socket.on("newMessage", (msg) => {
+        appendMessage(msg);
+    });
 
     // Send message
     sendButton.addEventListener("click", async function () {
@@ -84,9 +82,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             if (response.data.success) {
                 messageInput.value = "";
-                await loadMessages(); // Reload messages
             }
-
         } catch (error) {
             console.error("Error sending message:", error);
         }

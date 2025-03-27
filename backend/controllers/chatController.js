@@ -2,6 +2,7 @@ const Chat = require('../models/Chat');
 const {Op} = require('sequelize')
 const jwt = require('jsonwebtoken')
 
+
 exports.getChatMessages = async (req, res) => {
     try {
         const { receiverId } = req.params;
@@ -34,6 +35,10 @@ exports.sendMessage = async (req, res) => {
         }
 
         const message = await Chat.create({ senderId, receiverId, text });
+        
+        // Emit message event using Socket.IO
+        const io = req.app.get('io'); // Retrieve Socket.IO instance
+        io.emit('newMessage', message);
 
         return res.json({ success: true, message });
     } catch (error) {
