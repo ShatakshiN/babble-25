@@ -1,61 +1,81 @@
-
-        body {
-            background-color: #111b21;
-        }
-        .container-fluid {
-            height: 100vh;
-        }
-        .sidebar {
-            background-color: #202c33;
-            height: 100%;
-        }
-        .chat-area {
-            background-color: #0b141a;
-            height: 100%;
-        }
-        .chat-header, .sidebar-header {
-            background-color: #202c33;
-            padding: 15px;
-        }
-        .chat-footer {
-            background-color: #202c33;
-            padding: 10px;
-        }
-        .chat-box {
-            height: calc(100vh - 130px);
-            overflow-y: auto;
-        }
-        .chat-input {
-            width: 100%;
-            border-radius: 20px;
-            padding: 10px;
-        }
-        .profile-pic {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        .dropdown-menu {
-            min-width: 150px;
-        }
-        .attachment-menu {
-            display: none;
-            position: absolute;
-            bottom: 60px;
-            left: 10px;
-            background: #202c33;
-            padding: 10px;
-            border-radius: 10px;
-        }
-        .attachment-menu a {
-            margin: 0 10px;
-            color: white;
-            text-decoration: none;
-            font-size: 20px;
-        }
-        #attach-icon {
-            color: white;
-        }
-
-   
+body {
+    background-color: #111b21;
+}
+.container-fluid {
+    height: 100vh;
+}
+.sidebar {
+    background-color: #202c33;
+    height: 100%;
+}
+.chat-area {
+    background-color: #0b141a;
+    height: 100%;
+}
+.chat-header, .sidebar-header {
+    background-color: #202c33;
+    padding: 15px;
+}
+.chat-footer {
+    background-color: #202c33;
+    padding: 10px;
+}
+.chat-box {
+    height: calc(100vh - 130px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+.chat-box p {
+    max-width: 60%;
+    word-wrap: break-word;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 16px;
+}
+.sent {
+    align-self: flex-start;
+    background-color: #f3f3f336; /* Bootstrap primary color */
+    color: white;
+    text-align: left;
+}
+.received {
+    align-self: flex-end;
+    background-color: #198754; /* Bootstrap success color */
+    color: white;
+    text-align: left;
+}
+.chat-input {
+    width: 100%;
+    border-radius: 20px;
+    padding: 10px;
+}
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.dropdown-menu {
+    min-width: 150px;
+}
+.attachment-menu {
+    display: none;
+    position: absolute;
+    bottom: 60px;
+    left: 10px;
+    background: #202c33;
+    padding: 10px;
+    border-radius: 10px;
+}
+.attachment-menu a {
+    margin: 0 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+}
+#attach-icon {
+    color: white;
+}
