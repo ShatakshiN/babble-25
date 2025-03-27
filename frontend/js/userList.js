@@ -27,11 +27,17 @@ document.addEventListener("DOMContentLoaded", async function () {
     const token = localStorage.getItem('token');
 
     try {
+        // Decode the JWT to get logged-in user ID
+        const payload = JSON.parse(atob(token.split('.')[1])); 
+        const loggedInUserId = payload.id;
+
         const response = await axios.get("http://localhost:4000/user/all", { headers: { 'auth-token': token } });
 
         if (!response.data.success) throw new Error("Failed to fetch users");
 
         response.data.users.forEach(user => {
+             // Skip the logged-in user (extra check in case backend didn't exclude)
+             if (user.id === loggedInUserId) return;
             const userCard = document.createElement("div");
             userCard.classList.add("user-card");
 

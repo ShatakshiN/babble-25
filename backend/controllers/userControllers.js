@@ -1,7 +1,7 @@
 const bcrpt = require('bcrypt')
 const {Op} = require('sequelize')
 const jwt = require('jsonwebtoken')
-const User = require('../models/User')
+const User = require('../models/user')
 
 
 function isParamValid(str) {
@@ -66,7 +66,8 @@ exports.getAllUsers = async (req, res) => {
         const loggedInUserId = req.user.id; // Extract logged-in user ID from middleware
 
         const users = await User.findAll({
-            attributes: ['id', 'name', 'dp']
+            attributes: ['id', 'name', 'dp'],
+            where: { id: { [Op.ne]: loggedInUserId } } // Exclude the logged-in user
         });
 
         // Provide a default DP if null
