@@ -1,27 +1,4 @@
-/* 
-document.addEventListener("DOMContentLoaded", function () {
-    const users = [
-        { name: "John Doe", image: "https://randomuser.me/api/portraits/men/1.jpg" },
-        { name: "Jane Smith", image: "https://randomuser.me/api/portraits/women/2.jpg" },
-        { name: "Mike Johnson", image: "https://randomuser.me/api/portraits/men/3.jpg" },
-        { name: "Emily Davis", image: "https://randomuser.me/api/portraits/women/4.jpg" }
-    ];
-    
-    const usersList = document.getElementById("users-list");
-    users.forEach(user => {
-        const userCard = document.createElement("div");
-        userCard.classList.add("user-card");
-        userCard.innerHTML = `
-            <div class="user-info">
-                <img src="${user.image}" alt="${user.name}" class="user-img">
-                <span class="fw-bold">${user.name}</span>
-            </div>
-            <button class="btn btn-primary">Chat</button>
-        `;
-        usersList.appendChild(userCard);
-    });
-});
- */
+
 document.addEventListener("DOMContentLoaded", async function () {
     const usersList = document.getElementById("users-list");
     const token = localStorage.getItem('token');
