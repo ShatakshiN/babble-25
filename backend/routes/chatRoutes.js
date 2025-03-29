@@ -5,5 +5,7 @@ const auth = require('../middlewares/auth');
 
 router.get('/messages/:receiverId', auth, chatController.getChatMessages);
 router.post('/send', auth, chatController.sendMessage);
+router.get('/previous-chat', auth, chatController.previousChat);
+
 
 module.exports = router;
